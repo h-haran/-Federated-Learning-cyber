@@ -1,0 +1,29 @@
+Purpose
+The script encrypts specific files using a password-derived key, ensuring that only someone with the correct password (and salt) can later decrypt them.
+
+Key Components
+PBKDF2HMAC: Derives a secure 32‑byte key from the user’s password and a stored salt.
+
+Fernet: Provides symmetric encryption/decryption using the derived key.
+Salt file (salt.bin): Ensures that even if the same password is reused, the derived key will be unique.
+
+Workflow
+Password input: The user enters a password at runtime.
+
+Salt loading: Reads the salt from salt.bin.
+
+Key generation: Uses PBKDF2HMAC with SHA‑256, 100,000 iterations, and the salt to derive a key.
+Cipher creation: Wraps the key in a Fernet cipher object.
+
+File encryption:
+
+Reads the contents of RT_IOT2022_NORMAL_TRAFFIC.csv and RT_IOT2022.csv.
+
+Encrypts the data with the Fernet cipher.
+
+Overwrites the original files with the encrypted data.
+
+Completion message: Prints “Files encrypted successfully!” once both files are processed.
+
+In short
+This script takes a password, derives a strong encryption key, and uses it to lock down two CSV files so they can’t be read without the same password and salt.
